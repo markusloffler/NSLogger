@@ -34,7 +34,7 @@
  *
  */
 
-#import "LoggerClient.h"
+#import <NSLoggerSwift/LoggerClient.h>
 
 
 // Log level usual usage:
