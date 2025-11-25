@@ -963,7 +963,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 		CGContextScaleCTM(ctx, 1.0f, -1.0f);
 		[self.message.image drawInRect:NSMakeRect(0, 0, newSize.width, newSize.height)
 							  fromRect:NSMakeRect(0, 0, srcSize.width, srcSize.height)
-							 operation:NSCompositeCopy
+							 operation:NSCompositingOperationCopy
 							  fraction:1.0f];
 		CGContextRestoreGState(ctx);
 	}
