@@ -314,6 +314,40 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
     [self commitAdvancedColorsChanges];
 }
 
+- (IBAction)advancedColorsUp:(id)sender {
+    if (self.advancedColors.count <= 1) {
+        return;
+    }
+    NSUInteger index = self.advancedColorsArrayController.selectionIndex;
+    if (index == NSNotFound || index == 0) {
+        return;
+    }
+    NSObject *selectedObject = [self.advancedColorsArrayController.arrangedObjects objectAtIndex:index];
+    [self.advancedColorsArrayController removeObject:selectedObject];
+    [self.advancedColorsArrayController insertObject:selectedObject atArrangedObjectIndex:index - 1];
+    [self.advancedColorsArrayController setSelectionIndex:index - 1];
+
+    [self.advancedColorsArrayController rearrangeObjects];
+    [self commitAdvancedColorsChanges];
+}
+
+- (IBAction)advancedColorsDown:(id)sender {
+    if (self.advancedColors.count <= 1) {
+        return;
+    }
+    NSUInteger index = self.advancedColorsArrayController.selectionIndex;
+    if (index == NSNotFound || index >= self.advancedColors.count - 1) {
+        return;
+    }
+    NSObject *selectedObject = [self.advancedColorsArrayController.arrangedObjects objectAtIndex:index];
+    [self.advancedColorsArrayController removeObject:selectedObject];
+    [self.advancedColorsArrayController insertObject:selectedObject atArrangedObjectIndex:index + 1];
+    [self.advancedColorsArrayController setSelectionIndex:index + 1];
+
+    [self.advancedColorsArrayController rearrangeObjects];
+    [self commitAdvancedColorsChanges];
+}
+
 - (NSFont *)fontForCurrentFontSelection
 {
 	NSFont *font;
