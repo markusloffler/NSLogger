@@ -357,7 +357,7 @@ static NSArray *sXcodeFileExtensions = nil;
 														 action:@selector(selectRun:)
 												  keyEquivalent:@""];
 		if (i == currentRun)
-			[runItem setState:NSOnState];
+			[runItem setState:NSControlStateValueOn];
 		[runItem setTag:i++];
 		[runItem setTarget:self];
 		[menu addItem:runItem];
@@ -664,23 +664,23 @@ static NSArray *sXcodeFileExtensions = nil;
 			continue;
 		if ([menuItem tag] == _logLevel)
 		{
-			[menuItem setState:NSOnState];
+			[menuItem setState:NSControlStateValueOn];
 			levelTitle = [menuItem title];
 		}
 		else
-			[menuItem setState:NSOffState];
+			[menuItem setState:NSControlStateValueOff];
 	}
 
 	NSString *tagTitle;
 	NSMenuItem *item = [[menu itemArray] lastObject];
 	if (_filterTags.count == 0)
 	{
-		[item setState:NSOnState];
+		[item setState:NSControlStateValueOn];
 		tagTitle = [item title];
 	}
 	else
 	{
-		[item setState:NSOffState];
+		[item setState:NSControlStateValueOff];
 		tagTitle = [NSString stringWithFormat:NSLocalizedString(@"Tag%@: %@", @""), _filterTags.count > 1 ? @"s" : @"", [_filterTags.allObjects componentsJoinedByString:@","]];
 	}
 
@@ -690,7 +690,7 @@ static NSArray *sXcodeFileExtensions = nil;
 		[item setRepresentedObject:tag];
 		[item setIndentationLevel:1];
 		if ([_filterTags containsObject:tag])
-			[item setState:NSOnState];
+			[item setState:NSControlStateValueOn];
 		[menu addItem:item];
 	}
 
