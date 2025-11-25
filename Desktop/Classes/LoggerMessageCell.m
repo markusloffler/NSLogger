@@ -555,7 +555,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 				s = [s substringToIndex:2048];
 
 			NSRect lr = [s boundingRectWithSize:sz
-										options:(NSStringDrawingOneShot | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+										options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
 									 attributes:self.defaultAttributes[@"text"]];
 			sz.height = fminf((float) NSHeight(lr), (float) sz.height);
 			break;
