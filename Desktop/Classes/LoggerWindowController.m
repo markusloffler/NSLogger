@@ -1095,7 +1095,7 @@ void runSystemCommand(NSString *cmd)
 		_initialRefreshDone = NO;
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self updateClientInfo];
-			if (!_clientAppSettingsRestored)
+			if (!self->_clientAppSettingsRestored)
 				[self restoreClientApplicationSettings];
 			[self rebuildRunsSubmenu];
 			[self refreshAllMessages:nil];
