@@ -136,7 +136,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	dict = [textAttrs mutableCopy];
 	dict[NSFontAttributeName] = defaultMonospacedFont;
 	style = [dict[NSParagraphStyleAttributeName] mutableCopy];
-	[style setAlignment:NSCenterTextAlignment];
+	[style setAlignment:NSTextAlignmentCenter];
 	dict[NSParagraphStyleAttributeName] = style;
 	attrs[@"mark"] = dict;
 
@@ -178,7 +178,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 			NSMutableDictionary *attrs = [sDefaultAttributes mutableCopy];
 			NSMutableDictionary *dict = [sDefaultAttributes[@"text"] mutableCopy];
 			NSMutableParagraphStyle *style = [dict[NSParagraphStyleAttributeName] mutableCopy];
-			[style setAlignment:NSCenterTextAlignment];
+			[style setAlignment:NSTextAlignmentCenter];
 			dict[NSParagraphStyleAttributeName] = style;
 			attrs[@"mark"] = dict;
 			[self setDefaultAttributes:attrs];
@@ -890,7 +890,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 			if (highlightedTextColor == nil)
 				hintAttrs[NSForegroundColorAttributeName] = NSColor.darkGrayColor;
 			NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-			[style setAlignment:NSRightTextAlignment];
+			[style setAlignment:NSTextAlignmentRight];
 			hintAttrs[NSParagraphStyleAttributeName] = style;
 			hint = NSLocalizedString(@"See all...", @"");
 			hintHeight = [hint boundingRectWithSize:r.size
