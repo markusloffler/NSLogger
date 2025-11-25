@@ -76,7 +76,7 @@
 {
 	cellFrame.size = self.message.cachedCellSize;
 
-	CGContextRef ctx = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef ctx = [[NSGraphicsContext currentContext] CGContext];
 	BOOL highlighted = [self isHighlighted];
 
 	CGColorRef separatorColor = CGColorCreateGenericRGB(162.0f / 255.0f,

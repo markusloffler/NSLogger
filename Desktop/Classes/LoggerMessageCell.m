@@ -672,7 +672,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 - (void)drawTimestampAndDeltaInRect:(NSRect)r highlightedTextColor:(NSColor *)highlightedTextColor
 {
 	// Draw timestamp and time delta column
-	CGContextRef ctx = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef ctx = [[NSGraphicsContext currentContext] CGContext];
 	CGContextSaveGState(ctx);
 	CGContextClipToRect(ctx, NSRectToCGRect(r));
 	NSRect tr = NSInsetRect(r, 2, 0);
@@ -735,7 +735,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 		attrs[NSForegroundColorAttributeName] = highlightedTextColor;
 	}
 
-	CGContextRef ctx = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef ctx = [[NSGraphicsContext currentContext] CGContext];
 	CGContextSaveGState(ctx);
 	CGContextClipToRect(ctx, NSRectToCGRect(r));
 	r.size.height = [self.message.threadID boundingRectWithSize:r.size
@@ -957,7 +957,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 		NSSize srcSize = self.message.imageSize;
 		CGFloat ratio = fmaxf(1.0f, fmaxf((float) (srcSize.width / NSWidth(r)), (float) (srcSize.height / NSHeight(r))));
 		CGSize newSize = CGSizeMake(floorf((float) (srcSize.width / ratio)), floorf((float) (srcSize.height / ratio)));
-		CGContextRef ctx = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
+		CGContextRef ctx = [[NSGraphicsContext currentContext] CGContext];
 		CGContextSaveGState(ctx);
 		CGContextTranslateCTM(ctx, NSMinX(r), NSMinY(r) + NSHeight(r));
 		CGContextScaleCTM(ctx, 1.0f, -1.0f);
@@ -1025,7 +1025,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 {
 	cellFrame.size = self.message.cachedCellSize;
 
-	CGContextRef ctx = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef ctx = [[NSGraphicsContext currentContext] CGContext];
 
 	BOOL highlighted = [self isHighlighted];
 

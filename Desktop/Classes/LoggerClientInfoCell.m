@@ -77,7 +77,7 @@
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-	CGContextRef ctx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef ctx = [[NSGraphicsContext currentContext] CGContext];
 	BOOL disconnected = (self.message.type == LOGMSG_TYPE_DISCONNECT);
 	BOOL highlighted = [self isHighlighted];
 
