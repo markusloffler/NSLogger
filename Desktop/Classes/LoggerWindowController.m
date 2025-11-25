@@ -783,7 +783,7 @@ static NSArray *sXcodeFileExtensions = nil;
 		[_logTable noteNumberOfRowsChanged];
 	}
 	_lastMessageRow = (int)[_displayedMessages count];
-	self.info = [NSString stringWithFormat:NSLocalizedString(@"%u messages", @""), [_displayedMessages count]];
+	self.info = [NSString stringWithFormat:NSLocalizedString(@"%lu messages", @""), (unsigned long)[_displayedMessages count]];
 }
 
 - (void)appendMessagesToTable:(NSArray *)messages

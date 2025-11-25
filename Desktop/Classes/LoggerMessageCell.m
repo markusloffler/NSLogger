@@ -455,7 +455,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	if (dataLen == 1)
 		[strings addObject:NSLocalizedString(@"Raw data, 1 byte:", @"")];
 	else
-		[strings addObject:[NSString stringWithFormat:NSLocalizedString(@"Raw data, %u bytes:", @""), dataLen]];
+		[strings addObject:[NSString stringWithFormat:NSLocalizedString(@"Raw data, %lu bytes:", @""), (unsigned long)dataLen]];
 	while (dataLen)
 	{
 		if ([strings count] == MAX_DATA_LINES)
