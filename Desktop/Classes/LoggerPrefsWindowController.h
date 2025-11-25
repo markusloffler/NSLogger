@@ -74,6 +74,8 @@
 
 - (IBAction)advancedColorsAdd:(id)sender;
 - (IBAction)advancedColorsDel:(id)sender;
+- (IBAction)advancedColorsUp:(id)sender;
+- (IBAction)advancedColorsDown:(id)sender;
 
 @end
 
