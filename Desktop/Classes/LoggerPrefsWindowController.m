@@ -157,8 +157,8 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 	[_sampleDataMessage setCell:cell];
 
 	[self updateUI];
-	[_sampleMessage setNeedsDisplay];
-	[_sampleDataMessage setNeedsDisplay];
+	_sampleMessage.needsDisplay = YES;
+	_sampleDataMessage.needsDisplay = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editingDidEnd:) name:NSControlTextDidEndEditingNotification object:nil];
 }
@@ -285,8 +285,8 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 	self.attributes = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 	((LoggerMessageCell *)[self.sampleMessage cell]).messageAttributes = self.attributes;
 	((LoggerMessageCell *)[self.sampleDataMessage cell]).messageAttributes = self.attributes;
-	[self.sampleMessage setNeedsDisplay];
-	[self.sampleDataMessage setNeedsDisplay];
+	self.sampleMessage.needsDisplay = YES;
+	self.sampleDataMessage.needsDisplay = YES;
 	[self updateUI];
 }
 
@@ -380,8 +380,8 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 			[self.attributes[dictName2] setObject:[sender color] forKey:attrName];
 		((LoggerMessageCell *)[self.sampleMessage cell]).messageAttributes = self.attributes;
 		((LoggerMessageCell *)[self.sampleDataMessage cell]).messageAttributes = self.attributes;
-		[self.sampleMessage setNeedsDisplay];
-		[self.sampleDataMessage setNeedsDisplay];
+		self.sampleMessage.needsDisplay = YES;
+		self.sampleDataMessage.needsDisplay = YES;
 	}
 }
 
@@ -415,8 +415,8 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 	}
 	((LoggerMessageCell *)[self.sampleMessage cell]).messageAttributes = self.attributes;
 	((LoggerMessageCell *)[self.sampleDataMessage cell]).messageAttributes = self.attributes;
-	[self.sampleMessage setNeedsDisplay];
-	[self.sampleDataMessage setNeedsDisplay];
+	self.sampleMessage.needsDisplay = YES;
+	self.sampleDataMessage.needsDisplay = YES;
 	[self updateUI];
 }
 

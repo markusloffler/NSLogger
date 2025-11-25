@@ -63,7 +63,7 @@ NSString *StringWithTimeDelta(struct timeval *td)
 
 CGColorRef CreateCGColorFromNSColor(NSColor * color)
 {
-    NSColor * rgbColor = [color colorUsingColorSpaceName:NSDeviceRGBColorSpace];
+    NSColor * rgbColor = [color colorUsingColorSpace:[NSColorSpace deviceRGBColorSpace]];
     CGFloat r, g, b, a;
     [rgbColor getRed:&r green:&g blue:&b alpha:&a];
     return CGColorCreateGenericRGB(r, g, b, a);

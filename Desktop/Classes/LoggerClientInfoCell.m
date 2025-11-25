@@ -38,7 +38,7 @@
 {
 	NSMutableDictionary *attrs = [self.defaultAttributes[@"text"] mutableCopy];
 	NSMutableParagraphStyle *style = [attrs[NSParagraphStyleAttributeName] mutableCopy];
-	[style setAlignment:NSCenterTextAlignment];
+	[style setAlignment:NSTextAlignmentCenter];
 	attrs[NSParagraphStyleAttributeName] = style;
 	if (highlighted)
     {
@@ -77,7 +77,7 @@
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-	CGContextRef ctx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef ctx = [[NSGraphicsContext currentContext] CGContext];
 	BOOL disconnected = (self.message.type == LOGMSG_TYPE_DISCONNECT);
 	BOOL highlighted = [self isHighlighted];
 

@@ -406,7 +406,7 @@ CFStringRef LoggerGetBonjourServiceName(Logger *logger)
 #define nslogger_xstr(s) nslogger_str(s)
 #define nslogger_str(s) #s
 
-void LoggerSetupBonjourForBuildUser()
+void LoggerSetupBonjourForBuildUser(void)
 {
     LoggerSetupBonjour(LoggerGetDefaultLogger(), NULL, CFSTR(nslogger_xstr(NSLOGGER_BUILD_USERNAME)));
 }
@@ -571,7 +571,7 @@ void LoggerStop(Logger *logger)
 	}
 }
 
-static void LoggerFlushAllOnExit()
+static void LoggerFlushAllOnExit(void)
 {
 	// this function is automatically configured by NSLogger to flush all connected loggers
 	// on exit. this guarantees that the developer sees the last messages issued by the application.
@@ -1148,7 +1148,7 @@ static void LoggerLogFromConsole(CFStringRef tag, int fd, int outfd, CFMutableDa
 {
 	// protected by `consoleGrabbersMutex`
 
-	const int BUFSIZE = 1000;
+	enum { BUFSIZE = 1000 };
 	size_t prognameLength = strlen(getprogname());
 
 	UInt8 buf[BUFSIZE];
@@ -1280,10 +1280,10 @@ static void *LoggerConsoleGrabThread(void *context)
 	return NULL;
 }
 
-static void LoggerStartConsoleRedirection()
+static void LoggerStartConsoleRedirection(void)
 {
 	// protected by `consoleGrabbersMutex`
-	
+
 	// keep the original pipes so we can still forward everything
 	// (i.e. to the running IDE that needs to display or interpret console messages)
 	// and remember the SIGPIPE settings, as we are going to clear them to prevent
@@ -1320,7 +1320,7 @@ static void LoggerStartConsoleRedirection()
 	pthread_create(&consoleGrabThread, NULL, &LoggerConsoleGrabThread, NULL);
 }
 
-static void LoggerStopConsoleRedirection()
+static void LoggerStopConsoleRedirection(void)
 {
 	// protected by consoleGrabbersMutex (see below)
 

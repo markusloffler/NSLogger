@@ -61,14 +61,14 @@
 		if ([name length])
 			return [NSString stringWithFormat:NSLocalizedString(@"Bonjour (%@, port %d%s)", @"Named Bonjour transport info string"),
 					name,
-					self.listenerPort,
+					(int)self.listenerPort,
 					self.secure ? ", SSL" : ""];
 		return [NSString stringWithFormat:NSLocalizedString(@"Bonjour (port %d%s)", @"Bonjour transport (default name) info string"),
-				self.listenerPort,
+				(int)self.listenerPort,
 				self.secure ? ", SSL" : ""];
 	}
 	return [NSString stringWithFormat:NSLocalizedString(@"TCP/IP (port %d%s)", @"TCP/IP transport info string"),
-			self.listenerPort,
+			(int)self.listenerPort,
 			self.secure ? ", SSL" : ""];
 }
 
