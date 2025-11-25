@@ -875,11 +875,11 @@ void runSystemCommand(NSString *cmd)
 	// command-double click opens the source file if it was defined in the log and the file is found (using alt can mess with the results of the AppleScript)
 	// alt-doubleclick opens the selection in external editor
 	NSEvent *event = [NSApp currentEvent];
-    if ([event clickCount] > 1 && ([NSEvent modifierFlags] & (NSFunctionKeyMask | NSCommandKeyMask)) != 0)
+    if ([event clickCount] > 1 && ([NSEvent modifierFlags] & (NSEventModifierFlagFunction | NSEventModifierFlagCommand)) != 0)
     {
 		[self openDetailsInIDE];
     }
-    else if ([event clickCount] > 1 && ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0)
+    else if ([event clickCount] > 1 && ([NSEvent modifierFlags] & NSEventModifierFlagOption) != 0)
     {
         [self openDetailsInExternalEditor:sender];
     }
