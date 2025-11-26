@@ -137,7 +137,7 @@
                                             <binding destination="503" name="value" keyPath="arrangedObjects.comment" id="512"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn width="360" minWidth="40" maxWidth="1000" headerToolTip="Regular expression to match against message full description." id="491">
+                                    <tableColumn width="340" minWidth="40" maxWidth="1000" headerToolTip="Regular expression to match against message full description." id="491">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Regular Expression">
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
