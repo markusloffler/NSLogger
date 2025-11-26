@@ -74,6 +74,7 @@ static NSArray *sXcodeFileExtensions = nil;
 		_displayedMessages = [[NSMutableArray alloc] initWithCapacity:4096];
 		_tags = [[NSMutableSet alloc] init];
 		_filterTags = [[NSMutableSet alloc] init];
+		_timestampColumnWidth = DEFAULT_TIMESTAMP_COLUMN_WIDTH;
 		_threadColumnWidth = DEFAULT_THREAD_COLUMN_WIDTH;
 
 		[self setShouldCloseDocument:YES];
@@ -142,7 +143,8 @@ static NSArray *sXcodeFileExtensions = nil;
 
 	[self rebuildQuickFilterPopup];
 	[self updateFilterPredicate];
-		
+
+	[self calculateTimestampColumnWidth];
 	[_logTable sizeToFit];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -203,6 +205,10 @@ static NSArray *sXcodeFileExtensions = nil;
     if (maxRowHeight >= 30 && maxCellSize.height > maxRowHeight)
         maxCellSize.height = maxRowHeight;
     
+	// Adjust maxCellSize to account for timestamp column
+	NSSize adjustedMaxSize = maxCellSize;
+	adjustedMaxSize.width -= _timestampColumnWidth;
+
 	for (LoggerMessage *msg in messages)
 	{
 		// detect cancellation
@@ -222,14 +228,14 @@ static NSArray *sXcodeFileExtensions = nil;
 				case LOGMSG_TYPE_LOG:
 				case LOGMSG_TYPE_BLOCKSTART:
 				case LOGMSG_TYPE_BLOCKEND:
-					newHeight = [LoggerMessageCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames];
+					newHeight = [LoggerMessageCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:adjustedMaxSize showFunctionNames:_showFunctionNames];
 					break;
 				case LOGMSG_TYPE_CLIENTINFO:
 				case LOGMSG_TYPE_DISCONNECT:
-					newHeight = [LoggerClientInfoCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames];
+					newHeight = [LoggerClientInfoCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:adjustedMaxSize showFunctionNames:_showFunctionNames];
 					break;
 				case LOGMSG_TYPE_MARK:
-					newHeight = [LoggerMarkerCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames];
+					newHeight = [LoggerMarkerCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:adjustedMaxSize showFunctionNames:_showFunctionNames];
 					break;
 				default:
 					break;
@@ -325,8 +331,27 @@ static NSArray *sXcodeFileExtensions = nil;
 	[self tileLogTable:NO];
 }
 
+- (void)calculateTimestampColumnWidth
+{
+	// Calculate the width needed for the timestamp column based on the current font
+	// Use the longest possible timestamp format: "23:59:59.999"
+	NSString *sampleTimestamp = @"23:59:59.999";
+	NSDictionary *attrs = [[LoggerMessageCell defaultAttributes] objectForKey:@"timestamp"];
+	NSRect bounds = [sampleTimestamp boundingRectWithSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)
+												  options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+											   attributes:attrs];
+
+	// Add some padding (12 pixels total: 6 on each side for comfortable spacing)
+	_timestampColumnWidth = ceil(NSWidth(bounds)) + 12.0f;
+
+	// Ensure minimum width
+	if (_timestampColumnWidth < 70.0f)
+		_timestampColumnWidth = 70.0f;
+}
+
 - (void)applyFontChanges
 {
+	[self calculateTimestampColumnWidth];
 	[self tileLogTable:YES];
 	[_logTable reloadData];
 }
