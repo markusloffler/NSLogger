@@ -39,8 +39,6 @@
 #define MINIMUM_CELL_HEIGHT            30.0f
 #define INDENTATION_TAB_WIDTH        10.0f            // in pixels
 
-#define TIMESTAMP_COLUMN_WIDTH        85.0f
-
 static NSColor *sDefaultTagAndLevelColor = nil;
 static CGFloat sMinimumHeightForCell = 0;
 static CGFloat sDefaultFileLineFunctionHeight = 0;
@@ -542,7 +540,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	if (cellSize.width > 0 && cellSize.width < sz.width && cellSize.height == minimumHeight)
 		return minimumHeight;
 
-	sz.width -= TIMESTAMP_COLUMN_WIDTH + threadColumWidth + 8;
+	sz.width -= threadColumWidth + 8;
 	sz.height -= 4;
 
 	switch (aMessage.contentsType)
@@ -1063,15 +1061,18 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	CGContextMoveToPoint(ctx, NSMinX(cellFrame), floorf((float) NSMaxY(cellFrame)));
 	CGContextAddLineToPoint(ctx, NSMaxX(cellFrame), floorf((float) NSMaxY(cellFrame)));
 
+	// Get column widths from window controller
+	LoggerWindowController *wc = [[[self controlView] window] windowController];
+	CGFloat timestampColumnWidth = ([wc isKindOfClass:[LoggerWindowController class]]) ? wc.timestampColumnWidth : DEFAULT_TIMESTAMP_COLUMN_WIDTH;
+	CGFloat threadColumnWidth = ([wc isKindOfClass:[LoggerWindowController class]]) ? wc.threadColumnWidth : DEFAULT_THREAD_COLUMN_WIDTH;
+
 	// timestamp/thread separator
-	CGContextMoveToPoint(ctx, floorf((float) (NSMinX(cellFrame) + TIMESTAMP_COLUMN_WIDTH)), NSMinY(cellFrame));
-	CGContextAddLineToPoint(ctx, floorf((float) (NSMinX(cellFrame) + TIMESTAMP_COLUMN_WIDTH)), floorf((float) (NSMaxY(cellFrame) - 1)));
+	CGContextMoveToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth)), NSMinY(cellFrame));
+	CGContextAddLineToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth)), floorf((float) (NSMaxY(cellFrame) - 1)));
 
 	// thread/message separator
-	LoggerWindowController *wc = [[[self controlView] window] windowController];
-	CGFloat threadColumnWidth = ([wc isKindOfClass:[LoggerWindowController class]]) ? wc.threadColumnWidth : DEFAULT_THREAD_COLUMN_WIDTH;
-	CGContextMoveToPoint(ctx, floorf((float) (NSMinX(cellFrame) + TIMESTAMP_COLUMN_WIDTH + threadColumnWidth)), NSMinY(cellFrame));
-	CGContextAddLineToPoint(ctx, floorf((float) (NSMinX(cellFrame) + TIMESTAMP_COLUMN_WIDTH + threadColumnWidth)), floorf((float) (NSMaxY(cellFrame) - 1)));
+	CGContextMoveToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth + threadColumnWidth)), NSMinY(cellFrame));
+	CGContextAddLineToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth + threadColumnWidth)), floorf((float) (NSMaxY(cellFrame) - 1)));
 	CGContextStrokePath(ctx);
 
 	// restore antialiasing
@@ -1080,21 +1081,21 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	// Draw timestamp and time delta column
 	NSRect r = NSMakeRect(NSMinX(cellFrame),
 						  NSMinY(cellFrame),
-						  TIMESTAMP_COLUMN_WIDTH,
+						  timestampColumnWidth,
 						  NSHeight(cellFrame));
 	[self drawTimestampAndDeltaInRect:r highlightedTextColor:highlightedTextColor];
 
 	// Draw thread ID and tag
-	r = NSMakeRect(NSMinX(cellFrame) + TIMESTAMP_COLUMN_WIDTH,
+	r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth,
 				   NSMinY(cellFrame),
 				   threadColumnWidth,
 				   NSHeight(cellFrame));
 	[self drawThreadIDAndTagInRect:r highlightedTextColor:highlightedTextColor];
 
 	// Draw message
-	r = NSMakeRect(NSMinX(cellFrame) + TIMESTAMP_COLUMN_WIDTH + threadColumnWidth + 3,
+	r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth + threadColumnWidth + 3,
 				   NSMinY(cellFrame),
-				   NSWidth(cellFrame) - (TIMESTAMP_COLUMN_WIDTH + threadColumnWidth) - 6,
+				   NSWidth(cellFrame) - (timestampColumnWidth + threadColumnWidth) - 6,
 				   NSHeight(cellFrame));
 	CGFloat fileLineFunctionHeight = 0;
 	if (self.shouldShowFunctionNames && ([self.message.filename length] || [self.message.functionName length]))
@@ -1108,9 +1109,9 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	// Draw File / Line / Function
 	if (fileLineFunctionHeight)
 	{
-		r = NSMakeRect(NSMinX(cellFrame) + TIMESTAMP_COLUMN_WIDTH + threadColumnWidth + 1,
+		r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth + threadColumnWidth + 1,
 					   NSMinY(cellFrame),
-					   NSWidth(cellFrame) - (TIMESTAMP_COLUMN_WIDTH + threadColumnWidth),
+					   NSWidth(cellFrame) - (timestampColumnWidth + threadColumnWidth),
 					   fileLineFunctionHeight);
 		[self drawFileLineFunctionInRect:r highlightedTextColor:highlightedTextColor mouseOver:NO];
 	}
@@ -1125,8 +1126,9 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	if (![wc isKindOfClass:[LoggerWindowController class]])
 		return NO;        // we may be in the Preferences window fake log message display
 
+	CGFloat timestampColumnWidth = wc.timestampColumnWidth;
 	CGFloat threadColumnWidth = wc.threadColumnWidth;
-	return mouseDownPoint.x >= (0. + TIMESTAMP_COLUMN_WIDTH + threadColumnWidth - 5.) && mouseDownPoint.x <= (0. + TIMESTAMP_COLUMN_WIDTH + threadColumnWidth + 5.);
+	return mouseDownPoint.x >= (0. + timestampColumnWidth + threadColumnWidth - 5.) && mouseDownPoint.x <= (0. + timestampColumnWidth + threadColumnWidth + 5.);
 
 }
 

@@ -80,6 +80,7 @@
 @property (nonatomic, retain) LoggerClientInfoCell *clientInfoCell;
 @property (nonatomic, retain) LoggerMarkerCell *markerCell;
 
+@property (nonatomic, assign) CGFloat timestampColumnWidth;
 @property (nonatomic, assign) CGFloat threadColumnWidth;
 
 @property (nonatomic, retain) dispatch_queue_t messageFilteringQueue;
@@ -120,6 +121,7 @@
 }
 @end
 
+#define	DEFAULT_TIMESTAMP_COLUMN_WIDTH	85.0f
 #define	DEFAULT_THREAD_COLUMN_WIDTH	85.0f
 
 
