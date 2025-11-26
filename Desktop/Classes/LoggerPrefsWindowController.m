@@ -157,8 +157,8 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 	[_sampleDataMessage setCell:cell];
 
 	[self updateUI];
-	[_sampleMessage setNeedsDisplay];
-	[_sampleDataMessage setNeedsDisplay];
+	_sampleMessage.needsDisplay = YES;
+	_sampleDataMessage.needsDisplay = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editingDidEnd:) name:NSControlTextDidEndEditingNotification object:nil];
 }
@@ -285,8 +285,47 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 	self.attributes = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 	((LoggerMessageCell *)[self.sampleMessage cell]).messageAttributes = self.attributes;
 	((LoggerMessageCell *)[self.sampleDataMessage cell]).messageAttributes = self.attributes;
-	[self.sampleMessage setNeedsDisplay];
-	[self.sampleDataMessage setNeedsDisplay];
+	self.sampleMessage.needsDisplay = YES;
+	self.sampleDataMessage.needsDisplay = YES;
+	[self updateUI];
+}
+
+- (IBAction)makeAllFontsBigger:(id)sender
+{
+	[self adjustAllFontsBySize:1.0];
+}
+
+- (IBAction)makeAllFontsSmaller:(id)sender
+{
+	[self adjustAllFontsBySize:-1.0];
+}
+
+- (void)adjustAllFontsBySize:(CGFloat)delta
+{
+	NSArray *fontKeys = @[@"timestamp", @"timedelta", @"threadID", @"tag", @"level", @"text", @"mark", @"data", @"fileLineFunction"];
+
+	for (NSString *key in fontKeys)
+	{
+		NSMutableDictionary *attrDict = self.attributes[key];
+		NSFont *currentFont = attrDict[NSFontAttributeName];
+		if (currentFont != nil)
+		{
+			CGFloat newSize = currentFont.pointSize + delta;
+			if (newSize >= 6.0 && newSize <= 72.0)
+			{
+				NSFont *newFont = [NSFont fontWithName:currentFont.fontName size:newSize];
+				if (newFont != nil)
+				{
+					attrDict[NSFontAttributeName] = newFont;
+				}
+			}
+		}
+	}
+
+	((LoggerMessageCell *)[self.sampleMessage cell]).messageAttributes = self.attributes;
+	((LoggerMessageCell *)[self.sampleDataMessage cell]).messageAttributes = self.attributes;
+	self.sampleMessage.needsDisplay = YES;
+	self.sampleDataMessage.needsDisplay = YES;
 	[self updateUI];
 }
 
@@ -310,6 +349,40 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 	if (self.advancedColors.count == 0) {
 		[self.advancedColors addObject:[self _blankAdvancedColor]];
 	}
+    [self.advancedColorsArrayController rearrangeObjects];
+    [self commitAdvancedColorsChanges];
+}
+
+- (IBAction)advancedColorsUp:(id)sender {
+    if (self.advancedColors.count <= 1) {
+        return;
+    }
+    NSUInteger index = self.advancedColorsArrayController.selectionIndex;
+    if (index == NSNotFound || index == 0) {
+        return;
+    }
+    NSObject *selectedObject = [self.advancedColorsArrayController.arrangedObjects objectAtIndex:index];
+    [self.advancedColorsArrayController removeObject:selectedObject];
+    [self.advancedColorsArrayController insertObject:selectedObject atArrangedObjectIndex:index - 1];
+    [self.advancedColorsArrayController setSelectionIndex:index - 1];
+
+    [self.advancedColorsArrayController rearrangeObjects];
+    [self commitAdvancedColorsChanges];
+}
+
+- (IBAction)advancedColorsDown:(id)sender {
+    if (self.advancedColors.count <= 1) {
+        return;
+    }
+    NSUInteger index = self.advancedColorsArrayController.selectionIndex;
+    if (index == NSNotFound || index >= self.advancedColors.count - 1) {
+        return;
+    }
+    NSObject *selectedObject = [self.advancedColorsArrayController.arrangedObjects objectAtIndex:index];
+    [self.advancedColorsArrayController removeObject:selectedObject];
+    [self.advancedColorsArrayController insertObject:selectedObject atArrangedObjectIndex:index + 1];
+    [self.advancedColorsArrayController setSelectionIndex:index + 1];
+
     [self.advancedColorsArrayController rearrangeObjects];
     [self commitAdvancedColorsChanges];
 }
@@ -380,8 +453,8 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 			[self.attributes[dictName2] setObject:[sender color] forKey:attrName];
 		((LoggerMessageCell *)[self.sampleMessage cell]).messageAttributes = self.attributes;
 		((LoggerMessageCell *)[self.sampleDataMessage cell]).messageAttributes = self.attributes;
-		[self.sampleMessage setNeedsDisplay];
-		[self.sampleDataMessage setNeedsDisplay];
+		self.sampleMessage.needsDisplay = YES;
+		self.sampleDataMessage.needsDisplay = YES;
 	}
 }
 
@@ -415,8 +488,8 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 	}
 	((LoggerMessageCell *)[self.sampleMessage cell]).messageAttributes = self.attributes;
 	((LoggerMessageCell *)[self.sampleDataMessage cell]).messageAttributes = self.attributes;
-	[self.sampleMessage setNeedsDisplay];
-	[self.sampleDataMessage setNeedsDisplay];
+	self.sampleMessage.needsDisplay = YES;
+	self.sampleDataMessage.needsDisplay = YES;
 	[self updateUI];
 }
 

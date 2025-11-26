@@ -357,7 +357,7 @@ static NSArray *sXcodeFileExtensions = nil;
 														 action:@selector(selectRun:)
 												  keyEquivalent:@""];
 		if (i == currentRun)
-			[runItem setState:NSOnState];
+			[runItem setState:NSControlStateValueOn];
 		[runItem setTag:i++];
 		[runItem setTarget:self];
 		[menu addItem:runItem];
@@ -664,23 +664,23 @@ static NSArray *sXcodeFileExtensions = nil;
 			continue;
 		if ([menuItem tag] == _logLevel)
 		{
-			[menuItem setState:NSOnState];
+			[menuItem setState:NSControlStateValueOn];
 			levelTitle = [menuItem title];
 		}
 		else
-			[menuItem setState:NSOffState];
+			[menuItem setState:NSControlStateValueOff];
 	}
 
 	NSString *tagTitle;
 	NSMenuItem *item = [[menu itemArray] lastObject];
 	if (_filterTags.count == 0)
 	{
-		[item setState:NSOnState];
+		[item setState:NSControlStateValueOn];
 		tagTitle = [item title];
 	}
 	else
 	{
-		[item setState:NSOffState];
+		[item setState:NSControlStateValueOff];
 		tagTitle = [NSString stringWithFormat:NSLocalizedString(@"Tag%@: %@", @""), _filterTags.count > 1 ? @"s" : @"", [_filterTags.allObjects componentsJoinedByString:@","]];
 	}
 
@@ -690,7 +690,7 @@ static NSArray *sXcodeFileExtensions = nil;
 		[item setRepresentedObject:tag];
 		[item setIndentationLevel:1];
 		if ([_filterTags containsObject:tag])
-			[item setState:NSOnState];
+			[item setState:NSControlStateValueOn];
 		[menu addItem:item];
 	}
 
@@ -783,7 +783,7 @@ static NSArray *sXcodeFileExtensions = nil;
 		[_logTable noteNumberOfRowsChanged];
 	}
 	_lastMessageRow = (int)[_displayedMessages count];
-	self.info = [NSString stringWithFormat:NSLocalizedString(@"%u messages", @""), [_displayedMessages count]];
+	self.info = [NSString stringWithFormat:NSLocalizedString(@"%lu messages", @""), (unsigned long)[_displayedMessages count]];
 }
 
 - (void)appendMessagesToTable:(NSArray *)messages
@@ -875,11 +875,11 @@ void runSystemCommand(NSString *cmd)
 	// command-double click opens the source file if it was defined in the log and the file is found (using alt can mess with the results of the AppleScript)
 	// alt-doubleclick opens the selection in external editor
 	NSEvent *event = [NSApp currentEvent];
-    if ([event clickCount] > 1 && ([NSEvent modifierFlags] & (NSFunctionKeyMask | NSCommandKeyMask)) != 0)
+    if ([event clickCount] > 1 && ([NSEvent modifierFlags] & (NSEventModifierFlagFunction | NSEventModifierFlagCommand)) != 0)
     {
 		[self openDetailsInIDE];
     }
-    else if ([event clickCount] > 1 && ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0)
+    else if ([event clickCount] > 1 && ([NSEvent modifierFlags] & NSEventModifierFlagOption) != 0)
     {
         [self openDetailsInExternalEditor:sender];
     }
@@ -1095,7 +1095,7 @@ void runSystemCommand(NSString *cmd)
 		_initialRefreshDone = NO;
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self updateClientInfo];
-			if (!_clientAppSettingsRestored)
+			if (!self->_clientAppSettingsRestored)
 				[self restoreClientApplicationSettings];
 			[self rebuildRunsSubmenu];
 			[self refreshAllMessages:nil];

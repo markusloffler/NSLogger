@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -38,9 +38,6 @@
 		3DAC10E413ED5A7E00D5E6BA /* SSSelectableToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DAC10E213ED5A7E00D5E6BA /* SSSelectableToolbarItem.m */; };
 		3DADCBA0125FC3B200807A7D /* ValueTransformers.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DADCB9F125FC3B200807A7D /* ValueTransformers.m */; };
 		3DBB562712829BCC004F729D /* LoggerMarkerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB562612829BCC004F729D /* LoggerMarkerCell.m */; };
-		3DC4A4C4175BC1DF004A3A34 /* HockeySDK.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3DC4A4BF175BC188004A3A34 /* HockeySDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3DC4A4C5175BC1E1004A3A34 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC4A4BF175BC188004A3A34 /* HockeySDK.framework */; };
-		3DC4A4C7175BC3EF004A3A34 /* HockeyConf.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DC4A4C6175BC3EF004A3A34 /* HockeyConf.plist */; };
 		3DC55EF30F436BBA005C61FD /* LoggerMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC55EF20F436BBA005C61FD /* LoggerMessageCell.m */; };
 		3DD2EB9314334BA8004EEB19 /* logfile.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3DD2EB9114334BA8004EEB19 /* logfile.icns */; };
 		3DD2EB9414334BA8004EEB19 /* rawlogfile.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3DD2EB9214334BA8004EEB19 /* rawlogfile.icns */; };
@@ -78,7 +75,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3DC4A4C4175BC1DF004A3A34 /* HockeySDK.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,8 +150,6 @@
 		3DADCB9F125FC3B200807A7D /* ValueTransformers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ValueTransformers.m; path = Classes/ValueTransformers.m; sourceTree = "<group>"; };
 		3DBB562512829BCC004F729D /* LoggerMarkerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerMarkerCell.h; path = Classes/LoggerMarkerCell.h; sourceTree = "<group>"; };
 		3DBB562612829BCC004F729D /* LoggerMarkerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoggerMarkerCell.m; path = Classes/LoggerMarkerCell.m; sourceTree = "<group>"; };
-		3DC4A4BF175BC188004A3A34 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "Third Party/HockeySDK-Mac/HockeySDK.framework"; sourceTree = "<group>"; };
-		3DC4A4C6175BC3EF004A3A34 /* HockeyConf.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = HockeyConf.plist; path = Resources/HockeyConf.plist; sourceTree = "<group>"; };
 		3DC55EF10F436BBA005C61FD /* LoggerMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerMessageCell.h; path = Classes/LoggerMessageCell.h; sourceTree = "<group>"; };
 		3DC55EF20F436BBA005C61FD /* LoggerMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoggerMessageCell.m; path = Classes/LoggerMessageCell.m; sourceTree = "<group>"; };
 		3DD2EB9114334BA8004EEB19 /* logfile.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = logfile.icns; path = Resources/Icon/logfile.icns; sourceTree = "<group>"; };
@@ -197,7 +191,6 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				3D369CB71290009800462E79 /* Security.framework in Frameworks */,
-				3DC4A4C5175BC1E1004A3A34 /* HockeySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,14 +239,6 @@
 			name = "System Frameworks";
 			sourceTree = "<group>";
 		};
-		1058C7A2FEA54F0111CA2CBB /* Vendor Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3DC4A4BF175BC188004A3A34 /* HockeySDK.framework */,
-			);
-			name = "Vendor Frameworks";
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,7 +284,6 @@
 				3DD2EB9214334BA8004EEB19 /* rawlogfile.icns */,
 				3D062E75129D17640067DB8C /* NSLoggerCertReq.conf */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				3DC4A4C6175BC3EF004A3A34 /* HockeyConf.plist */,
 				3D6A34A31262FD5500D0EC3A /* InfoPlist.strings */,
 				3D6A34A71262FD5500D0EC3A /* MainMenu.xib */,
 				3D6A37C8126399D700D0EC3A /* LoggerStatus.xib */,
@@ -317,7 +301,6 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A0FEA54F0111CA2CBB /* System Frameworks */,
-				1058C7A2FEA54F0111CA2CBB /* Vendor Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -464,7 +447,8 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2610;
 				ORGANIZATIONNAME = "Florent Pillet";
 				TargetAttributes = {
 					3DE8CE7712AE4A17005C83D0 = {
@@ -515,7 +499,6 @@
 				3DD2EB9314334BA8004EEB19 /* logfile.icns in Resources */,
 				3DD2EB9414334BA8004EEB19 /* rawlogfile.icns in Resources */,
 				C2B7D6D82A8B61A5005D994B /* Media.xcassets in Resources */,
-				3DC4A4C7175BC3EF004A3A34 /* HockeyConf.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +507,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3DEE27A312B771DC009ADA67 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -597,15 +581,17 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = ETK7NXHU9M;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -623,14 +609,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = ETK7NXHU9M;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INSTALL_PATH = /usr/local/bin;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -649,15 +637,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = K42G4S78CE;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Third Party/HockeySDK-Mac\"",
-				);
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -665,7 +651,7 @@
 				HEADER_SEARCH_PATHS = "\"Third Party/BWToolkit\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.florentpillet.NSLogger;
 				PRODUCT_NAME = NSLogger;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -678,21 +664,19 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = K42G4S78CE;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Third Party/HockeySDK-Mac\"",
-				);
+				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = NSLogger_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"Third Party/BWToolkit\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.florentpillet.NSLogger;
 				PRODUCT_NAME = NSLogger;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -715,14 +699,17 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -733,10 +720,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Debug;
 		};
@@ -756,13 +744,16 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -771,9 +762,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Release;
 		};
