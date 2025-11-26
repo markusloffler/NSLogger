@@ -290,6 +290,45 @@ void *advancedColorsArrayControllerDidChange = &advancedColorsArrayControllerDid
 	[self updateUI];
 }
 
+- (IBAction)makeAllFontsBigger:(id)sender
+{
+	[self adjustAllFontsBySize:1.0];
+}
+
+- (IBAction)makeAllFontsSmaller:(id)sender
+{
+	[self adjustAllFontsBySize:-1.0];
+}
+
+- (void)adjustAllFontsBySize:(CGFloat)delta
+{
+	NSArray *fontKeys = @[@"timestamp", @"timedelta", @"threadID", @"tag", @"level", @"text", @"mark", @"data", @"fileLineFunction"];
+
+	for (NSString *key in fontKeys)
+	{
+		NSMutableDictionary *attrDict = self.attributes[key];
+		NSFont *currentFont = attrDict[NSFontAttributeName];
+		if (currentFont != nil)
+		{
+			CGFloat newSize = currentFont.pointSize + delta;
+			if (newSize >= 6.0 && newSize <= 72.0)
+			{
+				NSFont *newFont = [NSFont fontWithName:currentFont.fontName size:newSize];
+				if (newFont != nil)
+				{
+					attrDict[NSFontAttributeName] = newFont;
+				}
+			}
+		}
+	}
+
+	((LoggerMessageCell *)[self.sampleMessage cell]).messageAttributes = self.attributes;
+	((LoggerMessageCell *)[self.sampleDataMessage cell]).messageAttributes = self.attributes;
+	self.sampleMessage.needsDisplay = YES;
+	self.sampleDataMessage.needsDisplay = YES;
+	[self updateUI];
+}
+
 - (NSMutableDictionary *)_blankAdvancedColor {
     NSString *color = @"black";
     if (@available(macOS 10_10, *)) {

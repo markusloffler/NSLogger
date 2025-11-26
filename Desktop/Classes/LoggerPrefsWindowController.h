@@ -71,6 +71,8 @@
 
 - (IBAction)applyFontChanges:(id)sender;
 - (IBAction)restoreFontDefaults:(id)sender;
+- (IBAction)makeAllFontsBigger:(id)sender;
+- (IBAction)makeAllFontsSmaller:(id)sender;
 
 - (IBAction)advancedColorsAdd:(id)sender;
 - (IBAction)advancedColorsDel:(id)sender;
