@@ -10,6 +10,7 @@ The following changes has been made:
 - Removed deprecated Hockey SDK
 - Fixed warnings
 - Bugfix: Not all tabs selectable in preferences window
+- Bugfix: Timestamp cut off because column width is too small
 
 ### Improvements
 
