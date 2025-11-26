@@ -34,10 +34,11 @@
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" frameAutosaveName="" animationBehavior="default" id="222">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="599" y="731" width="487" height="209"/>
+            <rect key="contentRect" x="599" y="731" width="600" height="209"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1049"/>
+            <value key="minSize" type="size" width="600" height="200"/>
             <view key="contentView" id="223">
-                <rect key="frame" x="0.0" y="0.0" width="487" height="209"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="209"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="5E22C339-8E3D-475D-AFF7-0EFED589CB07" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconAndLabel" sizeMode="regular" id="427" customClass="SSSelectableToolbar">
@@ -104,24 +105,24 @@
             </connections>
         </objectController>
         <customView id="464" userLabel="Advanced Colors Prefs Panel">
-            <rect key="frame" x="0.0" y="0.0" width="447" height="448"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="448"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="485">
-                    <rect key="frame" x="0.0" y="22" width="447" height="426"/>
+                    <rect key="frame" x="0.0" y="22" width="600" height="426"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" id="O6e-oj-TeH">
-                        <rect key="frame" x="1" y="1" width="445" height="424"/>
+                        <rect key="frame" x="1" y="1" width="598" height="424"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="488" id="486">
-                                <rect key="frame" x="0.0" y="0.0" width="445" height="399"/>
+                                <rect key="frame" x="0.0" y="0.0" width="598" height="399"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn width="116" minWidth="40" maxWidth="1000" headerToolTip="A reminder note." id="490">
+                                    <tableColumn width="120" minWidth="40" maxWidth="1000" headerToolTip="A reminder note." id="490">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Comment">
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -136,7 +137,7 @@
                                             <binding destination="503" name="value" keyPath="arrangedObjects.comment" id="512"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn width="204" minWidth="40" maxWidth="1000" headerToolTip="Regular expression to match against message full description." id="491">
+                                    <tableColumn width="360" minWidth="40" maxWidth="1000" headerToolTip="Regular expression to match against message full description." id="491">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Regular Expression">
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -151,7 +152,7 @@
                                             <binding destination="503" name="value" keyPath="arrangedObjects.regexp" id="514"/>
                                         </connections>
                                     </tableColumn>
-                                    <tableColumn width="78" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Comma or space separated list of colors (#rrggbb or name)." id="499">
+                                    <tableColumn width="118" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Comma or space separated list of colors (#rrggbb or name)." id="499">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Colors">
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -171,15 +172,15 @@
                         </subviews>
                     </clipView>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="487">
-                        <rect key="frame" x="1" y="409" width="445" height="16"/>
+                        <rect key="frame" x="1" y="409" width="598" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="489">
-                        <rect key="frame" x="224" y="17" width="15" height="102"/>
+                        <rect key="frame" x="583" y="17" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <tableHeaderView key="headerView" wantsLayer="YES" id="488">
-                        <rect key="frame" x="0.0" y="0.0" width="445" height="25"/>
+                        <rect key="frame" x="0.0" y="0.0" width="598" height="25"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </tableHeaderView>
                 </scrollView>
@@ -231,7 +232,7 @@
             <point key="canvasLocation" x="121.5" y="832"/>
         </customView>
         <customView id="397" userLabel="Network Prefs Panel">
-            <rect key="frame" x="0.0" y="0.0" width="487" height="275"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="275"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="398">
@@ -340,7 +341,7 @@ Gw
             <point key="canvasLocation" x="142" y="1"/>
         </customView>
         <view id="394" userLabel="Font Prefs Panel">
-            <rect key="frame" x="0.0" y="0.0" width="548" height="478"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="478"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="256" customClass="SampleMessageControl">
@@ -635,7 +636,7 @@ Gw
             <point key="canvasLocation" x="172" y="1360"/>
         </view>
         <customView id="479" userLabel="General Prefs Panel">
-            <rect key="frame" x="0.0" y="0.0" width="487" height="236"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="236"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="480">
