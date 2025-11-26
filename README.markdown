@@ -1,3 +1,28 @@
+## Fork Info
+
+This is a fork of the IMHO great tool NSLogger by Florent Pillet. Find the original repo [here](https://github.com/fpillet/NSLogger).
+
+The following changes has been made:
+
+### Bugfixes
+
+- Updated to Xcode 26
+- Removed deprecated Hockey SDK
+- Fixed warnings
+- Bugfix: Not all tabs selectable in preferences window
+
+### Improvements
+
+- Make preferences window wider so it shows all tabs
+
+### Features
+
+- Preferences window/advanced colors: Added arrow buttons to reorder the list
+- Preferences window/font & colors: Added buttons to make all texts bigger or smaller
+ 
+&nbsp;
+<hr/>
+
 <p align="center">
   <img src="https://github.com/fpillet/NSLogger/raw/master/Desktop/Resources/Icon/1290083967_Console.png" title="NSLogger" width=128>
 </p>
