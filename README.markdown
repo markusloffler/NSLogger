@@ -20,6 +20,7 @@ The following changes has been made:
 
 - Preferences window/advanced colors: Added arrow buttons to reorder the list
 - Preferences window/font & colors: Added buttons to make all texts bigger or smaller
+- Added buttons to toggle display of timestamp deltas and the tag
  
 &nbsp;
 <hr/>
