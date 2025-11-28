@@ -42,6 +42,10 @@
 static NSColor *sDefaultTagAndLevelColor = nil;
 static CGFloat sMinimumHeightForCell = 0;
 static CGFloat sDefaultFileLineFunctionHeight = 0;
+static CGFloat sTimestampHeight = 0;
+static CGFloat sTimeDeltaHeight = 0;
+static CGFloat sThreadIDHeight = 0;
+static CGFloat sTagHeight = 0;
 static NSMutableDictionary *advancedColors = nil;
 
 NSString *const kMessageAttributesChangedNotification = @"MessageAttributesChangedNotification";
@@ -218,6 +222,10 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	sDefaultAttributes = [[newAttributes copy] mutableCopy];
 	sMinimumHeightForCell = 0;
 	sDefaultFileLineFunctionHeight = 0;
+	sTimestampHeight = 0;
+	sTimeDeltaHeight = 0;
+	sThreadIDHeight = 0;
+	sTagHeight = 0;
 	[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:sDefaultAttributes] forKey:[self messageAttributeKey]];
 	[[NSNotificationCenter defaultCenter] postNotificationName:kMessageAttributesChangedNotification object:nil];
 }
@@ -497,19 +505,9 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 {
 	if (sMinimumHeightForCell == 0)
 	{
-		NSRect r1 = [@"10:10:10.256" boundingRectWithSize:NSMakeSize(1024, 1024)
-												  options:NSStringDrawingUsesLineFragmentOrigin
-											   attributes:self.defaultAttributes[@"timestamp"]];
-		NSRect r2 = [@"+999ms" boundingRectWithSize:NSMakeSize(1024, 1024)
-											options:NSStringDrawingUsesLineFragmentOrigin
-										 attributes:self.defaultAttributes[@"timedelta"]];
-		NSRect r3 = [@"Main Thread" boundingRectWithSize:NSMakeSize(1024, 1024)
-												 options:NSStringDrawingUsesLineFragmentOrigin
-											  attributes:self.defaultAttributes[@"threadID"]];
-		NSRect r4 = [@"qWTy" boundingRectWithSize:NSMakeSize(1024, 1024)
-										  options:NSStringDrawingUsesLineFragmentOrigin
-									   attributes:self.defaultAttributes[@"tag"]];
-		sMinimumHeightForCell = fmaxf((float) (NSHeight(r1) + NSHeight(r2)), (float) (NSHeight(r3) + NSHeight(r4))) + 4;
+		CGFloat timestampColumnHeight = [self heightForTimestamp] + [self heightForTimeDelta];
+		CGFloat threadColumnHeight = [self heightForThreadID] + [self heightForTag];
+		sMinimumHeightForCell = fmaxf((float)timestampColumnHeight, (float)threadColumnHeight) + 4;
 	}
 	return sMinimumHeightForCell;
 }
@@ -526,36 +524,70 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	return sDefaultFileLineFunctionHeight;
 }
 
-+ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames
++ (CGFloat)heightForTimestamp
 {
-	// return cached cell height if possible
-	CGFloat minimumHeight = [self minimumHeightForCell];
-	NSSize cellSize = aMessage.cachedCellSize;
-	if (cellSize.width == sz.width)
-		return cellSize.height;
+	if (sTimestampHeight == 0)
+	{
+		NSRect r = [@"10:10:10.256" boundingRectWithSize:NSMakeSize(1024, 1024)
+												  options:NSStringDrawingUsesLineFragmentOrigin
+											   attributes:self.defaultAttributes[@"timestamp"]];
+		sTimestampHeight = NSHeight(r);
+	}
+	return sTimestampHeight;
+}
 
-	cellSize.width = sz.width;
++ (CGFloat)heightForTimeDelta
+{
+	if (sTimeDeltaHeight == 0)
+	{
+		NSRect r = [@"+999ms" boundingRectWithSize:NSMakeSize(1024, 1024)
+											options:NSStringDrawingUsesLineFragmentOrigin
+										 attributes:self.defaultAttributes[@"timedelta"]];
+		sTimeDeltaHeight = NSHeight(r);
+	}
+	return sTimeDeltaHeight;
+}
 
-	// new width is larger, but cell already at minimum height, don't recompute
-	if (cellSize.width > 0 && cellSize.width < sz.width && cellSize.height == minimumHeight)
-		return minimumHeight;
++ (CGFloat)heightForThreadID
+{
+	if (sThreadIDHeight == 0)
+	{
+		NSRect r = [@"Main Thread" boundingRectWithSize:NSMakeSize(1024, 1024)
+												options:NSStringDrawingUsesLineFragmentOrigin
+											 attributes:self.defaultAttributes[@"threadID"]];
+		sThreadIDHeight = NSHeight(r);
+	}
+	return sThreadIDHeight;
+}
 
-	sz.width -= threadColumWidth + 8;
-	sz.height -= 4;
++ (CGFloat)heightForTag
+{
+	if (sTagHeight == 0)
+	{
+		NSRect r = [@"qWTy" boundingRectWithSize:NSMakeSize(1024, 1024)
+										  options:NSStringDrawingUsesLineFragmentOrigin
+									   attributes:self.defaultAttributes[@"tag"]];
+		sTagHeight = NSHeight(r);
+	}
+	return sTagHeight;
+}
+
++ (CGFloat)heightForMessageContent:(LoggerMessage *)aMessage maxSize:(NSSize)maxSize
+{
+	CGFloat messageContentHeight = 0;
 
 	switch (aMessage.contentsType)
 	{
 		case kMessageString:
 		{
-			// restrict message length for very long contents
 			NSString *s = aMessage.message;
 			if ([s length] > 2048)
 				s = [s substringToIndex:2048];
 
-			NSRect lr = [s boundingRectWithSize:sz
+			NSRect lr = [s boundingRectWithSize:maxSize
 										options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
 									 attributes:self.defaultAttributes[@"text"]];
-			sz.height = fminf((float) NSHeight(lr), (float) sz.height);
+			messageContentHeight = NSHeight(lr);
 			break;
 		}
 
@@ -565,31 +597,61 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 			int nLines = (int) (numBytes >> 4) + ((numBytes & 15) ? 1 : 0) + 1;
 			if (nLines > MAX_DATA_LINES)
 				nLines = MAX_DATA_LINES + 1;
-			NSRect lr = [@"000:" boundingRectWithSize:sz
+			NSRect lr = [@"000:" boundingRectWithSize:maxSize
 											  options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
 										   attributes:self.defaultAttributes[@"data"]];
-			sz.height = NSHeight(lr) * nLines;
+			messageContentHeight = NSHeight(lr) * nLines;
 			break;
 		}
 
 		case kMessageImage:
 		{
-			// approximate, compute ratio then refine height
 			NSSize imgSize = aMessage.imageSize;
-			CGFloat ratio = fmaxf(1.0f, fmaxf((float) (imgSize.width / sz.width), (float) (imgSize.height / (sz.height / 2.0f))));
-			sz.height = ceilf((float) (imgSize.height / ratio));
+			CGFloat ratio = fmaxf(1.0f, fmaxf((float) (imgSize.width / maxSize.width),
+											  (float) (imgSize.height / (maxSize.height / 2.0f))));
+			messageContentHeight = ceilf((float) (imgSize.height / ratio));
 			break;
 		}
 		default:
 			break;
 	}
 
-	// If there is file / line / function information, add its height
-	if (showFunctionNames && ([aMessage.filename length] || [aMessage.functionName length]))
-		sz.height += [self heightForFileLineFunction];
+	return messageContentHeight;
+}
 
-	// cache and return cell height
-	cellSize.height = fmaxf((float) (sz.height + 6), (float) minimumHeight);
++ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage timestampColumnWidth:(CGFloat)timestampColumnWidth threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames
+{
+	// If width hasn't changed, return cached cell height if available
+	NSSize cellSize = aMessage.cachedCellSize;
+	if (cellSize.width == sz.width)
+		return cellSize.height;
+
+	cellSize.width = sz.width;
+
+	// Calculate static column heights
+	CGFloat timestampColumnHeight = [self heightForTimestamp] + [self heightForTimeDelta];
+	CGFloat threadColumnHeight = [self heightForThreadID] + [self heightForTag];
+	CGFloat minimumHeightFromStaticColumns = fmaxf(timestampColumnHeight, threadColumnHeight) + 4;
+
+	// Optimization: if width increased but cell already at minimum height, don't recompute
+	if (cellSize.width > 0 && cellSize.width < sz.width && cellSize.height == minimumHeightFromStaticColumns + 6)
+		return cellSize.height;
+
+	// Calculate available space for message content column
+	NSSize messageContentSize = sz;
+	messageContentSize.width -= timestampColumnWidth + threadColumWidth + 8;
+	messageContentSize.height -= 4;
+
+	// Calculate message content height based on type
+	CGFloat messageColumnHeight = [self heightForMessageContent:aMessage maxSize:messageContentSize];
+
+	// Add file/line/function bar height if needed
+	if (showFunctionNames && ([aMessage.filename length] || [aMessage.functionName length]))
+        messageColumnHeight += [self heightForFileLineFunction];
+
+	// Calculate cell height
+	cellSize.height = fmaxf(timestampColumnHeight,
+                            fmaxf(threadColumnHeight, messageColumnHeight)) + 10;
 	aMessage.cachedCellSize = cellSize;
 	return cellSize.height;
 }

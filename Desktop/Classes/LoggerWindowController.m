@@ -205,10 +205,6 @@ static NSArray *sXcodeFileExtensions = nil;
     if (maxRowHeight >= 30 && maxCellSize.height > maxRowHeight)
         maxCellSize.height = maxRowHeight;
     
-	// Adjust maxCellSize to account for timestamp column
-	NSSize adjustedMaxSize = maxCellSize;
-	adjustedMaxSize.width -= _timestampColumnWidth;
-
 	for (LoggerMessage *msg in messages)
 	{
 		// detect cancellation
@@ -228,14 +224,14 @@ static NSArray *sXcodeFileExtensions = nil;
 				case LOGMSG_TYPE_LOG:
 				case LOGMSG_TYPE_BLOCKSTART:
 				case LOGMSG_TYPE_BLOCKEND:
-					newHeight = [LoggerMessageCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:adjustedMaxSize showFunctionNames:_showFunctionNames];
+                    newHeight = [LoggerMessageCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames];
 					break;
 				case LOGMSG_TYPE_CLIENTINFO:
 				case LOGMSG_TYPE_DISCONNECT:
-					newHeight = [LoggerClientInfoCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:adjustedMaxSize showFunctionNames:_showFunctionNames];
+					newHeight = [LoggerClientInfoCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames];
 					break;
 				case LOGMSG_TYPE_MARK:
-					newHeight = [LoggerMarkerCell heightForCellWithMessage:msg threadColumnWidth:_threadColumnWidth maxSize:adjustedMaxSize showFunctionNames:_showFunctionNames];
+					newHeight = [LoggerMarkerCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames];
 					break;
 				default:
 					break;
