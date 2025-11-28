@@ -619,7 +619,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	return messageContentHeight;
 }
 
-+ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage timestampColumnWidth:(CGFloat)timestampColumnWidth threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames showTimeDelta:(BOOL)showTimeDelta
++ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage timestampColumnWidth:(CGFloat)timestampColumnWidth threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames showTimeDelta:(BOOL)showTimeDelta showTag:(BOOL)showTag
 {
 	// If width hasn't changed, return cached cell height if available
 	NSSize cellSize = aMessage.cachedCellSize;
@@ -632,7 +632,9 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	CGFloat timestampColumnHeight = [self heightForTimestamp];
 	if (showTimeDelta)
 		timestampColumnHeight += [self heightForTimeDelta];
-	CGFloat threadColumnHeight = [self heightForThreadID] + [self heightForTag];
+	CGFloat threadColumnHeight = [self heightForThreadID];
+	if (showTag)
+		threadColumnHeight += [self heightForTag];
 	CGFloat minimumHeightFromStaticColumns = fmaxf(timestampColumnHeight, threadColumnHeight) + 4;
 
 	// Optimization: if width increased but cell already at minimum height, don't recompute
@@ -813,7 +815,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	// Draw tag and level, if provided
 	NSString *tag = self.message.tag;
 	int level = self.message.level;
-	if ([tag length] || level)
+	if (self.shouldShowTag && ([tag length] || level))
 	{
 		LoggerWindowController *wc = [[[self controlView] window] windowController];
 		CGFloat threadColumnWidth = ([wc isKindOfClass:[LoggerWindowController class]]) ? wc.threadColumnWidth : DEFAULT_THREAD_COLUMN_WIDTH;

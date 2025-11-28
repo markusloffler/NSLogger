@@ -38,6 +38,7 @@
 {
 	BOOL _showFunctionNames;
 	BOOL _shouldShowTimeDelta;
+	BOOL _shouldShowTag;
 }
 
 @property (nonatomic, weak) IBOutlet LoggerTableView *logTable;
@@ -46,6 +47,7 @@
 @property (nonatomic, weak) IBOutlet NSPopUpButton *quickFilter;
 @property (nonatomic, weak) IBOutlet NSButton *showFunctionNamesButton;
 @property (nonatomic, weak) IBOutlet NSButton *shouldShowTimeDeltaButton;
+@property (nonatomic, weak) IBOutlet NSButton *shouldShowTagButton;
 @property (nonatomic, weak) IBOutlet NSSearchField *quickFilterTextField;
 
 @property (nonatomic, retain) IBOutlet NSArrayController *filterSetsListController;
@@ -68,6 +70,7 @@
 @property (nonatomic, assign) BOOL clientAppSettingsRestored;
 @property (nonatomic, retain) NSNumber* showFunctionNames;
 @property (nonatomic, retain) NSNumber* shouldShowTimeDelta;
+@property (nonatomic, retain) NSNumber* shouldShowTag;
 @property (nonatomic, assign) int lastMessageRow;
 
 @property (nonatomic, retain) NSString *filterString;

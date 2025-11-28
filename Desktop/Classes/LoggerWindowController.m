@@ -77,6 +77,7 @@ static NSArray *sXcodeFileExtensions = nil;
 		_timestampColumnWidth = DEFAULT_TIMESTAMP_COLUMN_WIDTH;
 		_threadColumnWidth = DEFAULT_THREAD_COLUMN_WIDTH;
 		_shouldShowTimeDelta = YES;
+		_shouldShowTag = YES;
 
 		[self setShouldCloseDocument:YES];
 	}
@@ -225,14 +226,14 @@ static NSArray *sXcodeFileExtensions = nil;
 				case LOGMSG_TYPE_LOG:
 				case LOGMSG_TYPE_BLOCKSTART:
 				case LOGMSG_TYPE_BLOCKEND:
-                    newHeight = [LoggerMessageCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames showTimeDelta:_shouldShowTimeDelta];
+                    newHeight = [LoggerMessageCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames showTimeDelta:_shouldShowTimeDelta showTag:_shouldShowTag];
 					break;
 				case LOGMSG_TYPE_CLIENTINFO:
 				case LOGMSG_TYPE_DISCONNECT:
-					newHeight = [LoggerClientInfoCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames showTimeDelta:_shouldShowTimeDelta];
+					newHeight = [LoggerClientInfoCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames showTimeDelta:_shouldShowTimeDelta showTag:_shouldShowTag];
 					break;
 				case LOGMSG_TYPE_MARK:
-					newHeight = [LoggerMarkerCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames showTimeDelta:_shouldShowTimeDelta];
+					newHeight = [LoggerMarkerCell heightForCellWithMessage:msg timestampColumnWidth:_timestampColumnWidth threadColumnWidth:_threadColumnWidth maxSize:maxCellSize showFunctionNames:_showFunctionNames showTimeDelta:_shouldShowTimeDelta showTag:_shouldShowTag];
 					break;
 				default:
 					break;
@@ -592,7 +593,11 @@ static NSArray *sXcodeFileExtensions = nil;
 	id showTimeDelta = clientAppSettings[@"_shouldShowTimeDelta"];
 	if (showTimeDelta != nil)
 		[self setShouldShowTimeDelta:showTimeDelta];
-	
+
+	id showTag = clientAppSettings[@"_shouldShowTag"];
+	if (showTag != nil)
+		[self setShouldShowTag:showTag];
+
 	// try to restore the last filter set that was
 	// selected for this application. Usually, you have a filter set per application
 	// (this is how it is intended to be used), so it makes sense to preselect it
@@ -1199,6 +1204,30 @@ void runSystemCommand(NSString *cmd)
 	return @(_shouldShowTimeDelta);
 }
 
+- (void)setShouldShowTag:(NSNumber *)value
+{
+	BOOL b = [value boolValue];
+	if (b != _shouldShowTag)
+	{
+		[self willChangeValueForKey:@"_shouldShowTag"];
+		_shouldShowTag = b;
+		[self tileLogTable:YES];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.logTable reloadData];
+		});
+		[self didChangeValueForKey:@"_shouldShowTag"];
+
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self setSettingForClientApplication:value forKey:@"_shouldShowTag"];
+		});
+	}
+}
+
+- (NSNumber *)shouldShowTag
+{
+	return @(_shouldShowTag);
+}
+
 // -----------------------------------------------------------------------------
 #pragma mark -
 #pragma mark LoggerConnectionDelegate
@@ -1306,6 +1335,7 @@ didReceiveMessages:(NSArray *)theMessages
 		cell.message = _displayedMessages[(NSUInteger) rowIndex];
 		cell.shouldShowFunctionNames = _showFunctionNames;
 		cell.shouldShowTimeDelta = _shouldShowTimeDelta;
+		cell.shouldShowTag = _shouldShowTag;
 
 		// if previous message is a Mark, go back a bit more to get the real previous message
 		// if previous message is ClientInfo, don't use it.
