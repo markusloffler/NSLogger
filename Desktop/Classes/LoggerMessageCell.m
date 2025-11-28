@@ -619,7 +619,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	return messageContentHeight;
 }
 
-+ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage timestampColumnWidth:(CGFloat)timestampColumnWidth threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames
++ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage timestampColumnWidth:(CGFloat)timestampColumnWidth threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames showTimeDelta:(BOOL)showTimeDelta
 {
 	// If width hasn't changed, return cached cell height if available
 	NSSize cellSize = aMessage.cachedCellSize;
@@ -629,7 +629,9 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	cellSize.width = sz.width;
 
 	// Calculate static column heights
-	CGFloat timestampColumnHeight = [self heightForTimestamp] + [self heightForTimeDelta];
+	CGFloat timestampColumnHeight = [self heightForTimestamp];
+	if (showTimeDelta)
+		timestampColumnHeight += [self heightForTimeDelta];
 	CGFloat threadColumnHeight = [self heightForThreadID] + [self heightForTag];
 	CGFloat minimumHeightFromStaticColumns = fmaxf(timestampColumnHeight, threadColumnHeight) + 4;
 
@@ -740,7 +742,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	// Prepare time delta between this message and the previous displayed (filtered) message
 	struct timeval tv = self.message.timestamp;
 	struct timeval td;
-	if (self.previousMessage != nil)
+	if (self.previousMessage != nil && self.shouldShowTimeDelta)
 		[self.message computeTimeDelta:&td since:self.previousMessage];
 
 	time_t sec = tv.tv_sec;
@@ -752,7 +754,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 		timestampStr = [NSString stringWithFormat:@"%02d:%02d:%02d.%03d", t->tm_hour, t->tm_min, t->tm_sec, tv.tv_usec / 1000];
 
 	NSString *timeDeltaStr = nil;
-	if (self.previousMessage != nil)
+	if (self.previousMessage != nil && self.shouldShowTimeDelta)
 		timeDeltaStr = StringWithTimeDelta(&td);
 
 	NSMutableDictionary *attrs = [self timestampAttributes];
@@ -771,15 +773,18 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 					   options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
 					attributes:attrs];
 
-	attrs = [self timedeltaAttributes];
-	if (highlightedTextColor)
+	if (self.shouldShowTimeDelta)
 	{
-		attrs = [attrs mutableCopy];
-		attrs[NSForegroundColorAttributeName] = highlightedTextColor;
+		attrs = [self timedeltaAttributes];
+		if (highlightedTextColor)
+		{
+			attrs = [attrs mutableCopy];
+			attrs[NSForegroundColorAttributeName] = highlightedTextColor;
+		}
+		[timeDeltaStr drawWithRect:deltaRect
+						   options:NSStringDrawingUsesLineFragmentOrigin
+						attributes:attrs];
 	}
-	[timeDeltaStr drawWithRect:deltaRect
-					   options:NSStringDrawingUsesLineFragmentOrigin
-					attributes:attrs];
 	CGContextRestoreGState(ctx);
 }
 
