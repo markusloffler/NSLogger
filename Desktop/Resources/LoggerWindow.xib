@@ -20,6 +20,9 @@
                 <outlet property="markTitleWindow" destination="1104" id="1160"/>
                 <outlet property="quickFilter" destination="894" id="912"/>
                 <outlet property="quickFilterTextField" destination="1298" id="1301"/>
+                <outlet property="shouldShowTagButton" destination="1600" id="1603"/>
+                <outlet property="shouldShowThreadIDButton" destination="1700" id="1703"/>
+                <outlet property="shouldShowTimeDeltaButton" destination="1500" id="1503"/>
                 <outlet property="showFunctionNamesButton" destination="1206" id="1221"/>
                 <outlet property="splitView" destination="455" id="1444"/>
                 <outlet property="window" destination="371" id="813"/>
@@ -343,8 +346,26 @@
                                             </menu>
                                         </popUpButtonCell>
                                     </popUpButton>
+                                    <button toolTip="Show / Hide timestamp delta" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1500">
+                                        <rect key="frame" x="38" y="0.0" width="28" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <buttonCell key="cell" type="square" title="Δt" bezelStyle="shadowlessSquare" alignment="center" scrollable="YES" lineBreakMode="clipping" borderStyle="border" inset="2" id="1501">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="shouldShowTimeDelta" id="1502">
+                                                <dictionary key="options">
+                                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                    <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                    <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </button>
                                     <button toolTip="Show / Hide file, line and function names" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1206">
-                                        <rect key="frame" x="30" y="0.0" width="28" height="24"/>
+                                        <rect key="frame" x="68" y="0.0" width="28" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <buttonCell key="cell" type="square" title="ƒ" bezelStyle="shadowlessSquare" alignment="center" scrollable="YES" lineBreakMode="clipping" borderStyle="border" inset="2" id="1207">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -361,8 +382,44 @@
                                             </binding>
                                         </connections>
                                     </button>
+                                    <button toolTip="Show / Hide tag" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1600">
+                                        <rect key="frame" x="98" y="0.0" width="28" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <buttonCell key="cell" type="square" title="🏷️" bezelStyle="shadowlessSquare" alignment="center" scrollable="YES" lineBreakMode="clipping" borderStyle="border" inset="2" id="1601">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="shouldShowTag" id="1602">
+                                                <dictionary key="options">
+                                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                    <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                    <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </button>
+                                    <button toolTip="Show / Hide thread ID" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1700">
+                                        <rect key="frame" x="128" y="0.0" width="28" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <buttonCell key="cell" type="square" title="⚙︎" bezelStyle="shadowlessSquare" alignment="center" scrollable="YES" lineBreakMode="clipping" borderStyle="border" inset="2" id="1701">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="shouldShowThreadID" id="1702">
+                                                <dictionary key="options">
+                                                    <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                    <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                                    <integer key="NSNullPlaceholder" value="0"/>
+                                                    <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </button>
                                     <textField toolTip="Number of messages displayed" focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="488">
-                                        <rect key="frame" x="63" y="5" width="497" height="14"/>
+                                        <rect key="frame" x="165" y="5" width="395" height="14"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" id="489">
                                             <font key="font" metaFont="smallSystem"/>

@@ -37,6 +37,9 @@
 @interface LoggerWindowController : NSWindowController <NSWindowDelegate, LoggerConnectionDelegate, NSTableViewDataSource, NSTableViewDelegate, NSSplitViewDelegate>
 {
 	BOOL _showFunctionNames;
+	BOOL _shouldShowTimeDelta;
+	BOOL _shouldShowTag;
+	BOOL _shouldShowThreadID;
 }
 
 @property (nonatomic, weak) IBOutlet LoggerTableView *logTable;
@@ -44,6 +47,9 @@
 @property (nonatomic, weak) IBOutlet NSTableView *filterTable;
 @property (nonatomic, weak) IBOutlet NSPopUpButton *quickFilter;
 @property (nonatomic, weak) IBOutlet NSButton *showFunctionNamesButton;
+@property (nonatomic, weak) IBOutlet NSButton *shouldShowTimeDeltaButton;
+@property (nonatomic, weak) IBOutlet NSButton *shouldShowTagButton;
+@property (nonatomic, weak) IBOutlet NSButton *shouldShowThreadIDButton;
 @property (nonatomic, weak) IBOutlet NSSearchField *quickFilterTextField;
 
 @property (nonatomic, retain) IBOutlet NSArrayController *filterSetsListController;
@@ -65,6 +71,9 @@
 @property (nonatomic, assign) BOOL initialRefreshDone;
 @property (nonatomic, assign) BOOL clientAppSettingsRestored;
 @property (nonatomic, retain) NSNumber* showFunctionNames;
+@property (nonatomic, retain) NSNumber* shouldShowTimeDelta;
+@property (nonatomic, retain) NSNumber* shouldShowTag;
+@property (nonatomic, retain) NSNumber* shouldShowThreadID;
 @property (nonatomic, assign) int lastMessageRow;
 
 @property (nonatomic, retain) NSString *filterString;
@@ -80,6 +89,7 @@
 @property (nonatomic, retain) LoggerClientInfoCell *clientInfoCell;
 @property (nonatomic, retain) LoggerMarkerCell *markerCell;
 
+@property (nonatomic, assign) CGFloat timestampColumnWidth;
 @property (nonatomic, assign) CGFloat threadColumnWidth;
 
 @property (nonatomic, retain) dispatch_queue_t messageFilteringQueue;
@@ -120,6 +130,7 @@
 }
 @end
 
+#define	DEFAULT_TIMESTAMP_COLUMN_WIDTH	85.0f
 #define	DEFAULT_THREAD_COLUMN_WIDTH	85.0f
 
 
