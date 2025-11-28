@@ -42,12 +42,13 @@ static NSMutableDictionary *sDefaultAttributes = nil;
 @property (nonatomic, assign) BOOL shouldShowFunctionNames;
 @property (nonatomic, assign) BOOL shouldShowTimeDelta;
 @property (nonatomic, assign) BOOL shouldShowTag;
+@property (nonatomic, assign) BOOL shouldShowThreadID;
 @property (nonatomic, assign) BOOL modifyingThreadColumnWidth;
 
 + (NSDictionary *)defaultAttributesDictionary;
 + (NSDictionary *)defaultAttributes;
 + (void)setDefaultAttributes:(NSDictionary *)newAttributes;
-+ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage timestampColumnWidth:(CGFloat)timestampColumnWidth threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames showTimeDelta:(BOOL)showTimeDelta showTag:(BOOL)showTag;
++ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage timestampColumnWidth:(CGFloat)timestampColumnWidth threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames showTimeDelta:(BOOL)showTimeDelta showTag:(BOOL)showTag showThreadID:(BOOL)showThreadID;
 + (CGFloat)minimumHeightForCell;
 + (CGFloat)heightForFileLineFunction;
 + (CGFloat)heightForTimestamp;
