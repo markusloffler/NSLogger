@@ -296,6 +296,7 @@ NSString * const kPref_ApplicationFilterSet = @"appFilterSet";
 	[docController addDocument:doc];
 	[doc makeWindowControllers];
 	[doc showWindows];
+	[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 }
 
 - (NSMutableArray *)defaultFilters
