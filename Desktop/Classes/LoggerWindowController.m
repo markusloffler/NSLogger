@@ -1216,6 +1216,7 @@ void runSystemCommand(NSString *cmd)
 	{
 		[self willChangeValueForKey:@"_shouldShowTag"];
 		_shouldShowTag = b;
+		[self updateThreadColumnWidthVisibility];
 		[self tileLogTable:YES];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.logTable reloadData];
@@ -1240,6 +1241,7 @@ void runSystemCommand(NSString *cmd)
 	{
 		[self willChangeValueForKey:@"_shouldShowThreadID"];
 		_shouldShowThreadID = b;
+		[self updateThreadColumnWidthVisibility];
 		[self tileLogTable:YES];
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.logTable reloadData];
@@ -1255,6 +1257,18 @@ void runSystemCommand(NSString *cmd)
 - (NSNumber *)shouldShowThreadID
 {
 	return @(_shouldShowThreadID);
+}
+
+- (void)updateThreadColumnWidthVisibility
+{
+	if (!_shouldShowTag && !_shouldShowThreadID)
+	{
+		_threadColumnWidth = 0.0f;
+	}
+	else if (_threadColumnWidth == 0.0f)
+	{
+		_threadColumnWidth = DEFAULT_THREAD_COLUMN_WIDTH;
+	}
 }
 
 // -----------------------------------------------------------------------------

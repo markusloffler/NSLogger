@@ -1143,9 +1143,12 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	CGFloat timestampColumnWidth = ([wc isKindOfClass:[LoggerWindowController class]]) ? wc.timestampColumnWidth : DEFAULT_TIMESTAMP_COLUMN_WIDTH;
 	CGFloat threadColumnWidth = ([wc isKindOfClass:[LoggerWindowController class]]) ? wc.threadColumnWidth : DEFAULT_THREAD_COLUMN_WIDTH;
 
-	// timestamp/thread separator
-	CGContextMoveToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth)), NSMinY(cellFrame));
-	CGContextAddLineToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth)), floorf((float) (NSMaxY(cellFrame) - 1)));
+	// timestamp/thread separator (only if thread column is visible)
+	if (threadColumnWidth > 0)
+	{
+		CGContextMoveToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth)), NSMinY(cellFrame));
+		CGContextAddLineToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth)), floorf((float) (NSMaxY(cellFrame) - 1)));
+	}
 
 	// thread/message separator
 	CGContextMoveToPoint(ctx, floorf((float) (NSMinX(cellFrame) + timestampColumnWidth + threadColumnWidth)), NSMinY(cellFrame));
@@ -1162,12 +1165,15 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 						  NSHeight(cellFrame) - cellPaddingTop - cellPaddingBottom);
 	[self drawTimestampAndDeltaInRect:r highlightedTextColor:highlightedTextColor];
 
-	// Draw thread ID and tag
-	r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth,
-				   NSMinY(cellFrame) + cellPaddingTop,
-				   threadColumnWidth,
-				   NSHeight(cellFrame) - cellPaddingTop - cellPaddingBottom);
-	[self drawThreadIDAndTagInRect:r highlightedTextColor:highlightedTextColor];
+	// Draw thread ID and tag (only if thread column is visible)
+	if (threadColumnWidth > 0)
+	{
+		r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth,
+					   NSMinY(cellFrame) + cellPaddingTop,
+					   threadColumnWidth,
+					   NSHeight(cellFrame) - cellPaddingTop - cellPaddingBottom);
+		[self drawThreadIDAndTagInRect:r highlightedTextColor:highlightedTextColor];
+	}
 
 	// Draw message
 	r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth + threadColumnWidth + 3,
