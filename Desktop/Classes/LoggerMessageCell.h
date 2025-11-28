@@ -45,8 +45,14 @@ static NSMutableDictionary *sDefaultAttributes = nil;
 + (NSDictionary *)defaultAttributesDictionary;
 + (NSDictionary *)defaultAttributes;
 + (void)setDefaultAttributes:(NSDictionary *)newAttributes;
-+ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames;
++ (CGFloat)heightForCellWithMessage:(LoggerMessage *)aMessage timestampColumnWidth:(CGFloat)timestampColumnWidth threadColumnWidth:(CGFloat)threadColumWidth maxSize:(NSSize)sz showFunctionNames:(BOOL)showFunctionNames;
 + (CGFloat)minimumHeightForCell;
++ (CGFloat)heightForFileLineFunction;
++ (CGFloat)heightForTimestamp;
++ (CGFloat)heightForTimeDelta;
++ (CGFloat)heightForThreadID;
++ (CGFloat)heightForTag;
++ (CGFloat)heightForMessageContent:(LoggerMessage *)aMessage maxSize:(NSSize)maxSize;
 + (NSArray *)loadAdvancedColorsPrefs;
 + (void)loadAdvancedColors;
 
