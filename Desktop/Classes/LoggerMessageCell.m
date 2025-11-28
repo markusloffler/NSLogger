@@ -333,7 +333,10 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 			isBold = NO;
 			if ([colorName hasPrefix:@"bold"])
 			{
-				colorName = [colorName componentsSeparatedByString:@" "][1];
+                NSArray* components = [colorName componentsSeparatedByString:@" "];
+                if ([components count] > 1) {
+                    colorName = components[1];
+                }
 				isBold = YES;
 			}
 			if ([colorName hasPrefix:@"#"])
