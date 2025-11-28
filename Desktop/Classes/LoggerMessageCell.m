@@ -39,6 +39,9 @@
 #define MINIMUM_CELL_HEIGHT            30.0f
 #define INDENTATION_TAB_WIDTH        10.0f            // in pixels
 
+static const CGFloat cellPaddingTop = 4.0f;
+static const CGFloat cellPaddingBottom = 4.0f;
+
 static NSColor *sDefaultTagAndLevelColor = nil;
 static CGFloat sMinimumHeightForCell = 0;
 static CGFloat sDefaultFileLineFunctionHeight = 0;
@@ -507,7 +510,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	{
 		CGFloat timestampColumnHeight = [self heightForTimestamp] + [self heightForTimeDelta];
 		CGFloat threadColumnHeight = [self heightForThreadID] + [self heightForTag];
-		sMinimumHeightForCell = fmaxf((float)timestampColumnHeight, (float)threadColumnHeight) + 4;
+		sMinimumHeightForCell = fmaxf((float)timestampColumnHeight, (float)threadColumnHeight) + cellPaddingTop + cellPaddingBottom;
 	}
 	return sMinimumHeightForCell;
 }
@@ -635,16 +638,16 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	CGFloat threadColumnHeight = [self heightForThreadID];
 	if (showTag)
 		threadColumnHeight += [self heightForTag];
-	CGFloat minimumHeightFromStaticColumns = fmaxf(timestampColumnHeight, threadColumnHeight) + 4;
+	CGFloat minimumHeightFromStaticColumns = fmaxf(timestampColumnHeight, threadColumnHeight) + cellPaddingTop + cellPaddingBottom;
 
 	// Optimization: if width increased but cell already at minimum height, don't recompute
-	if (cellSize.width > 0 && cellSize.width < sz.width && cellSize.height == minimumHeightFromStaticColumns + 6)
+	if (cellSize.width > 0 && cellSize.width < sz.width && cellSize.height == minimumHeightFromStaticColumns)
 		return cellSize.height;
 
 	// Calculate available space for message content column
 	NSSize messageContentSize = sz;
 	messageContentSize.width -= timestampColumnWidth + threadColumWidth + 8;
-	messageContentSize.height -= 4;
+	messageContentSize.height -= (cellPaddingTop + cellPaddingBottom);
 
 	// Calculate message content height based on type
 	CGFloat messageColumnHeight = [self heightForMessageContent:aMessage maxSize:messageContentSize];
@@ -655,7 +658,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 
 	// Calculate cell height
 	cellSize.height = fmaxf(timestampColumnHeight,
-                            fmaxf(threadColumnHeight, messageColumnHeight)) + 10;
+                            fmaxf(threadColumnHeight, messageColumnHeight)) + cellPaddingTop + cellPaddingBottom;
 	aMessage.cachedCellSize = cellSize;
 	return cellSize.height;
 }
@@ -1149,23 +1152,23 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 
 	// Draw timestamp and time delta column
 	NSRect r = NSMakeRect(NSMinX(cellFrame),
-						  NSMinY(cellFrame),
+						  NSMinY(cellFrame) + cellPaddingTop,
 						  timestampColumnWidth,
-						  NSHeight(cellFrame));
+						  NSHeight(cellFrame) - cellPaddingTop - cellPaddingBottom);
 	[self drawTimestampAndDeltaInRect:r highlightedTextColor:highlightedTextColor];
 
 	// Draw thread ID and tag
 	r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth,
-				   NSMinY(cellFrame),
+				   NSMinY(cellFrame) + cellPaddingTop,
 				   threadColumnWidth,
-				   NSHeight(cellFrame));
+				   NSHeight(cellFrame) - cellPaddingTop - cellPaddingBottom);
 	[self drawThreadIDAndTagInRect:r highlightedTextColor:highlightedTextColor];
 
 	// Draw message
 	r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth + threadColumnWidth + 3,
-				   NSMinY(cellFrame),
+				   NSMinY(cellFrame) + cellPaddingTop,
 				   NSWidth(cellFrame) - (timestampColumnWidth + threadColumnWidth) - 6,
-				   NSHeight(cellFrame));
+				   NSHeight(cellFrame) - cellPaddingTop - cellPaddingBottom);
 	CGFloat fileLineFunctionHeight = 0;
 	if (self.shouldShowFunctionNames && ([self.message.filename length] || [self.message.functionName length]))
 	{
@@ -1179,7 +1182,7 @@ NSString *const kMessageColumnWidthsChangedNotification = @"MessageColumnWidthsC
 	if (fileLineFunctionHeight)
 	{
 		r = NSMakeRect(NSMinX(cellFrame) + timestampColumnWidth + threadColumnWidth + 1,
-					   NSMinY(cellFrame),
+					   NSMinY(cellFrame) + cellPaddingTop,
 					   NSWidth(cellFrame) - (timestampColumnWidth + threadColumnWidth),
 					   fileLineFunctionHeight);
 		[self drawFileLineFunctionInRect:r highlightedTextColor:highlightedTextColor mouseOver:NO];
